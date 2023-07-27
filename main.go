@@ -19,9 +19,6 @@ func init() {
 }
 
 func main() {
-	// Convert the rate to bytes per second
-	ratePerSecond := float64(memRate) * MB
-
 	fmt.Printf("Allocating memory at a rate of %d MB/second\n", memRate)
 
 	// Create a slice to hold the memory
@@ -31,9 +28,6 @@ func main() {
 	ticker := time.NewTicker(1 * time.Second)
 
 	for range ticker.C {
-
-		// Allocate the amount of memory for this second
-		bytesToAllocate := int(ratePerSecond)
-		mem = append(mem, make([]byte, bytesToAllocate)...)
+		mem = append(mem, make([]byte, memRate*MB)...)
 	}
 }
