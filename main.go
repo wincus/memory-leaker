@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
+	"runtime"
 	"time"
 )
 
@@ -27,7 +29,20 @@ func main() {
 	// Start the allocation loop
 	ticker := time.NewTicker(1 * time.Second)
 
+	var counter int
+
 	for range ticker.C {
+		counter++
 		mem = append(mem, make([]byte, memRate*MB)...)
+
+		if counter%10 == 0 {
+			logMemStats()
+		}
 	}
+}
+
+func logMemStats() {
+	var m runtime.MemStats
+	runtime.ReadMemStats(&m)
+	log.Printf("System: %vMB, Alloc Heap: %vMB, Heap System: %vMB\n", m.Sys/MB, m.Alloc/MB, m.HeapSys/MB)
 }
