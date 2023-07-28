@@ -35,7 +35,8 @@ func main() {
 		counter++
 		mem = append(mem, make([]byte, memRate*MB)...)
 
-		if counter%10 == 0 {
+		// Log memory stats every 60 seconds
+		if counter%60 == 0 {
 			logMemStats()
 		}
 	}
